@@ -1,42 +1,213 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+    font-family: system-ui, Arial;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.title-container{
+    display: flex;
+    justify-content: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header-tab {
+    display: flex;
+    list-style: none;
+    padding: 0.5rem;
+    height: 5rem;
+    align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.header-tab li {
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
 }
 
-.card {
-  padding: 2em;
+#header-logo img {
+    height: 4rem;
+    width: 4rem;
 }
 
-.read-the-docs {
-  color: #888;
+.header-tab li.selected-tab {
+    text-decoration: underline;
+    text-decoration-color: #0a5ce9;
+    text-decoration-thickness: 5px;
+    border-radius: 5px;
+}
+
+#filter {
+    display: flex;
+    justify-content: left;
+    margin: 2rem 0;
+}
+
+#pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    align-items: center;
+}
+
+#pagination button {
+    background-color: #0a5ce9;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#movies-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2rem;
+    margin: 0 2rem;
+    box-sizing: border-box;
+    padding: 0 0.5rem;
+}
+
+.movie-card {
+    background-color: #fff;
+    box-shadow: 0 2rem 5rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.7rem;
+    aspect-ratio: 17/33;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    /* font-size: auto; */
+}
+
+.movie-card .movie-card-title {
+    text-align: center;
+    padding: 0 0.5rem;
+}
+
+.movie-card .movie-card-title:hover {
+    color: #0a5ce9;
+    cursor: pointer;
+}
+
+.movie-card .movie-card-image img {
+    display: block;             
+    width: 100%;                              
+    object-fit: cover;          
+}
+
+.movie-card .movie-card-rating{
+    display: flex;
+    justify-content: space-between;
+    padding: 5% 10%;
+    margin-top: auto;
+    font-size: large;
+}
+
+.movie-card .movie-card-rating .rating svg{
+    color: #f5c518;
+}
+/* .ion-ios-star{
+    color: #f5c518;
+} */
+
+.ion-ios-heart{
+    color: red
+}
+
+.backdrop {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-detail{
+    width: 60rem;
+    height: 30rem;
+    background-color: white;
+    opacity: 1;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2rem;
+    width: 2rem;
+    font-size: 1.5rem;
+    color: white;
+    background-color: red;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.movie-detail-info {
+    display: flex;
+    /* optionally center vertically: */
+    align-items: flex-start;
+}
+
+/* make the poster panel 35% of the width */
+.movie-detail-poster {
+    flex: 0 0 35%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.movie-detail-poster img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.movie-detail-genres-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.movie-detail-genre {
+    background: lightblue;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.production-companies-list {
+    display: flex;           /* horizontal layout, remove all bullets*/
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+    align-items: center;
+}
+
+.production-company img {
+    display: block;
+    height: 2rem;            /* fixed height and width */
+    width: 2rem;             
+    object-fit: contain;
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
 }

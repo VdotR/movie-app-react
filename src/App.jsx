@@ -1,35 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+ // src/App.jsx
+ import { useEffect, useState, useCallback } from 'react';
+ import { Routes, Route } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
+ import Header from './components/Header';
+ import MovieDetailModal from './components/MovieDetailModal';
+ import { fetchMovies, fetchMovieDetails } from './api';
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+import HomePage           from './HomePage';
+import FavoritesPage      from './FavoritesPage';
 
-export default App
+ import './App.css';
+
+ export default function App() {
+   const [movies, setMovies]           = useState([]);
+   const [likedMovies, setLikedMovies] = useState([]);
+   const [category, setCategory]       = useState('popular');
+   const [page, setPage]               = useState(1);
+   const [totalPages, setTotalPages]   = useState(0);
+   const [detail, setDetail]           = useState(null);
+
+   useEffect(() => {
+     fetchMovies({ category, page }).then(r => {
+       setMovies(r.results);
+       setTotalPages(r.total_pages);
+     });
+   }, [category, page]);
+
+   const openDetail = useCallback(async (id) => {
+     const raw = await fetchMovieDetails(id);
+     setDetail(raw);
+   }, []);
+
+   const toggleLike = movie => {
+     setLikedMovies(prev => {
+       const exists = prev.some(m => m.id === movie.id);
+       return exists
+         ? prev.filter(m => m.id !== movie.id)
+         : [...prev, movie];
+     });
+   };
+
+   return (
+     <>
+       <div className="title-container"><h1>Movie DB</h1></div>
+       <Header />
+
+       <Routes>
+         <Route
+           path="/"
+           element={
+             <HomePage
+               movies={movies}
+               likedMovies={likedMovies}
+               category={category}
+               setCategory={setCategory}
+               page={page}
+               totalPages={totalPages}
+               setPage={setPage}
+               toggleLike={toggleLike}
+               openDetail={openDetail}
+             />
+           }
+         />
+         <Route
+           path="/favorites"
+           element={
+             <FavoritesPage
+               likedMovies={likedMovies}
+               toggleLike={toggleLike}
+               openDetail={openDetail}
+             />
+           }
+         />
+       </Routes>
+
+       <footer>
+         <p>Created by Victor Ren – React port {new Date().getFullYear()}</p>
+       </footer>
+
+       <MovieDetailModal movie={detail} close={() => setDetail(null)} />
+     </>
+   );
+ }
