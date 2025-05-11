@@ -29,7 +29,6 @@ export default function LoginPage() {
     }
 
     return (
-        
         <div className="login-container">
         <h1 className="login-header">Log In</h1>
         <Formik
