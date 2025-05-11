@@ -83,14 +83,79 @@ export const login = async ({ username, password }) => {
             requestToken
         }
 
-        localStorage.setItem('userData', JSON.stringify(userData));
+        //localStorage.setItem('userData', JSON.stringify(userData));
 
+        return userData;
     } catch (e) {
         throw e;
     }
 };
 
-// await login({
-//     username: 'victorren2002_backup',
-//     password: 'Vren2002'
-// })
+export const getLikedMovies = async (sessionId) => {
+    return;
+};
+
+export const getRatedMovies = async ({sessionId, accountId}) => {
+    const options = {
+        method: 'GET',
+        headers: headers
+    };
+
+    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/rated/movies?language=en-US&session_id=${sessionId}&sort_by=created_at.asc`, options)
+    const resJSON = await res.json();
+    const ratedMovies = resJSON.results;
+};
+
+export const setMovieFavoriteStatus = async ({movieId, sessionId, accountId, favorite}) => {
+    const options = {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({media_type: 'movie', media_id: movieId, favorite})
+    };
+
+    fetch(`https://api.themoviedb.org/3/account/${accountId}/favorite?session_id=${sessionId}`, options)
+    .then(res => res.json())
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
+}
+
+export const likeMovie = async ({movieId, sessionId, accountId}) => {
+    await setMovieFavoriteStatus({
+        movieId,
+        sessionId,
+        accountId,
+        favorite: true
+    });
+};
+
+export const unlikeMovie = async ({movieId, sessionId, accountId}) => {
+    await setMovieFavoriteStatus({
+        movieId,
+        sessionId,
+        accountId,
+        favorite: false
+    });
+};
+
+export const rateMovie = async ({movieId, sessionId, }) => {
+    return;
+};
+
+const userData = await login({
+    username: 'victorren2002_backup',
+    password: 'Vren2002'
+})
+
+console.log(userData);
+
+await likeMovie({
+    movieId: 974576,
+    sessionId: userData.sessionId,
+    accountId: userData.accountId
+});
+
+await unlikeMovie({
+    movieId: 974576,
+    sessionId: userData.sessionId,
+    accountId: userData.accountId
+});
