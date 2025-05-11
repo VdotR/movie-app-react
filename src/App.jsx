@@ -13,7 +13,7 @@ import LoginPage from './LoginPage';
 import './App.css';
 
 export default function App() {
-  /* --------------- state --------------- */
+  /* --------------- states --------------- */
   const [movies, setMovies]           = useState([]);
   const [likedMovies, setLikedMovies] = useState([]);
   const [category, setCategory]       = useState('popular');
@@ -21,6 +21,7 @@ export default function App() {
   const [totalPages, setTotalPages]   = useState(0);
   const [userRatedMovies, setUserRatedMovies] = useState([]);
   const [userLikedMovies, setUserLikedMovies] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   /* -------- router helpers & cache -------- */
   const navigate   = useNavigate();

@@ -85,3 +85,15 @@ body {
 .submit-button:not(:disabled):hover {
   background-color: #0056b3;
 }
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loading-container .loading-text {
+  font-size: 1.5rem;
+  color: grey;
+}
