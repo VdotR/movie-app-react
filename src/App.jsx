@@ -8,6 +8,7 @@ import { fetchMovies } from './api';
 
 import HomePage from './HomePage';
 import FavoritesPage from './FavoritesPage';
+import LoginPage from './LoginPage';
 
 import './App.css';
 
@@ -92,6 +93,8 @@ export default function App() {
           }
         />
         <Route path="/movies/:id" element={<MovieDetailPage />} />
+
+        <Route path="login" element={<LoginPage />}/>
       </Routes>
 
       <footer>

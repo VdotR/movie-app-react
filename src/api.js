@@ -25,3 +25,5 @@ export const fetchMovieDetails = async (id) => {
   );
   return res.json();
 };
+
+
