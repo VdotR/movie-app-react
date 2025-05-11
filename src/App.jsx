@@ -95,7 +95,8 @@ export default function App() {
         />
         <Route path="/movies/:id" element={<MovieDetailPage />} />
 
-        <Route path="login" element={<LoginPage />}/>
+        <Route path="login" element={<LoginPage 
+                                      setLoggedIn={setLoggedIn}/>}/>
       </Routes>
 
       <footer>

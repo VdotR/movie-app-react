@@ -1,32 +1,32 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './LoginPage.css';
+import { login } from './api';
 
-export default function LoginPage() {
-    const [loading, setLoading] = useState(false);
+export default function LoginPage({ setLoggedIn }) {
+    const navigate = useNavigate();
 
     const LoginSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),    
         password: Yup.string().required('Password is required'),
     });
 
-    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
-        setLoading(true);
-        // Simulate an async operation (e.g., API call) with a delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        alert(`Username: ${values.username}\nPassword: ${values.password}`);
-        setSubmitting(false);
-        setLoading(false);
+    const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
+        try {
+            await login(values);
+            setLoggedIn(true);
+            navigate('/');
+            console.log('Login successful');
+        } catch (e) {
+            setStatus('Invalid username or password');
+            setErrors({ password: 'Invalid username or password' });
+            console.error(e);
+        } finally {
+            setSubmitting(false);
+        }
     };
-
-    if (loading) {
-        return (
-            <div className="loading-container">
-                <p className="loading-text">Loading...</p>
-            </div>
-        );
-    }
 
     return (
         <div className="login-container">
@@ -40,6 +40,11 @@ export default function LoginPage() {
         >
             {({ isSubmitting }) => (
             <Form className="login-form">
+                {isSubmitting && (
+                    <div className="login-form-loading-overlay">
+                    <p>Logging In...</p>
+                    </div>
+                )}
                 <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <Field type="text" id="username" name="username" />
