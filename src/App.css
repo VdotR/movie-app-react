@@ -7,6 +7,12 @@ body {
     justify-content: center;
 }
 
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .header-tab {
     display: flex;
     list-style: none;
@@ -30,6 +36,12 @@ body {
     text-decoration-color: #0a5ce9;
     text-decoration-thickness: 5px;
     border-radius: 5px;
+}
+
+.header .header-login-container{
+    float: right;
+    background-color: #0a5ce9;
+    border: black;
 }
 
 #filter {

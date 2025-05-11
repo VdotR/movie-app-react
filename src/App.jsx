@@ -33,6 +33,7 @@ export default function App() {
 
   /* --------------- fetch w/ cache --------------- */
   useEffect(() => {
+
     const key = `${category}-${page}`; //unique key for each category+page
 
     // serve from cache if available
@@ -64,7 +65,10 @@ export default function App() {
   return (
     <>
       <div className="title-container"><h1>Movie DB</h1></div>
-      <Header />
+      <Header 
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+      />
 
       <Routes>
         <Route
@@ -96,7 +100,9 @@ export default function App() {
         <Route path="/movies/:id" element={<MovieDetailPage />} />
 
         <Route path="login" element={<LoginPage 
-                                      setLoggedIn={setLoggedIn}/>}/>
+                                      setLoggedIn={setLoggedIn}
+                                      />}
+        />
       </Routes>
 
       <footer>
