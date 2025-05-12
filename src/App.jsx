@@ -141,76 +141,93 @@ export default function App() {
       }
     }, [likedPage, loggedIn]);
 
-  /* --------------- render --------------- */
-  return (
-    <>
-      <div className="title-container"><h1>Movie DB</h1></div>
-      <Header 
-        loggedIn={loggedIn}
-        clearUserData={clearUserData}
-      />
+    /* --------------- rate movie ----------- */
+    const rateMovieHandler = async (movie, rating) => {
+      if (!loggedIn) {
+        alert("Please log in to rate movies");
+        return;
+      }
+      const { sessionId } = loadUserData();
+      try {
+        await rateMovie({ movieId: movie.id, sessionId, value: rating });
+        // Update the userRatedMovies state to reflect the new rating
+        setUserRatedMovies([{...movie, rating}, ...userRatedMovies.filter(m => m.id !== movie.id)]);
+      } catch (error) {
+        console.error("Error rating movie:", error);
+      }
+    };
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <HomePage
-              movies={movies}
-              likedMovies={userLikedMovies}
-              category={category}
-              setCategory={setCategory}
-              page={page}
-              totalPages={totalPages}
-              setPage={setPage}
-              toggleLike={toggleLike}
-              openDetail={openDetail}
-            />
-          }
-        />
-        <Route
-          path="/favorites"
-          element={
-            <FavoritesPage
-              likedMovies={userLikedMovies}
-              toggleLike={toggleLike}
-              openDetail={openDetail}
-              loggedIn={loggedIn}
-              likedPage={likedPage}
-              likedTotalPages={likedTotalPages}
-              setLikedPage={setLikedPage}
-            />
-          }
+    /* --------------- render --------------- */
+    return (
+      <>
+        <div className="title-container"><h1>Movie DB</h1></div>
+        <Header 
+          loggedIn={loggedIn}
+          clearUserData={clearUserData}
         />
 
-        <Route
-          path="/rated"
-          element={
-            <RatedPage
-              RatedMovies={userRatedMovies}
-              likedMovies={userLikedMovies}
-              toggleLike={toggleLike}
-              openDetail={openDetail}
-              loggedIn={loggedIn}
-              ratedPage={ratedPage}
-              ratedTotalPages={ratedTotalPages}
-              setRatedPage={setRatedPage}
-            />
-          }
-        />
-        <Route path="/movies/:id" element={<MovieDetailPage 
-                                            loggedIn={loggedIn}
-                                            userRatedMovies={userRatedMovies}
-                                          />} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                movies={movies}
+                likedMovies={userLikedMovies}
+                category={category}
+                setCategory={setCategory}
+                page={page}
+                totalPages={totalPages}
+                setPage={setPage}
+                toggleLike={toggleLike}
+                openDetail={openDetail}
+              />
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <FavoritesPage
+                likedMovies={userLikedMovies}
+                toggleLike={toggleLike}
+                openDetail={openDetail}
+                loggedIn={loggedIn}
+                likedPage={likedPage}
+                likedTotalPages={likedTotalPages}
+                setLikedPage={setLikedPage}
+              />
+            }
+          />
 
-        <Route path="login" element={<LoginPage 
-                                      setLoggedIn={setLoggedIn}
-                                      />}
-        />
-      </Routes>
+          <Route
+            path="/rated"
+            element={
+              <RatedPage
+                RatedMovies={userRatedMovies}
+                likedMovies={userLikedMovies}
+                toggleLike={toggleLike}
+                openDetail={openDetail}
+                loggedIn={loggedIn}
+                ratedPage={ratedPage}
+                ratedTotalPages={ratedTotalPages}
+                setRatedPage={setRatedPage}
+              />
+            }
+          />
+          <Route path="/movies/:id" element={<MovieDetailPage 
+                                              loggedIn={loggedIn}
+                                              userRatedMovies={userRatedMovies}
+                                              rateMovieHandler={rateMovieHandler}
+                                            />} />
 
-      <footer>
-        <p>Created by Victor Ren – 2025</p>
-      </footer>
-    </>
-  );
+          <Route path="login" element={<LoginPage 
+                                        setLoggedIn={setLoggedIn}
+                                        />}
+          />
+        </Routes>
+
+        <footer>
+          <p>Created by Victor Ren – 2025</p>
+        </footer>
+      </>
+    );
 }

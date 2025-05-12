@@ -114,9 +114,10 @@ header{
 .movie-card .movie-card-rating .rating svg{
     color: #f5c518;
 }
-/* .ion-ios-star{
+
+.IoIosStar{
     color: #f5c518;
-} */
+} 
 
 .ion-ios-heart{
     color: red
