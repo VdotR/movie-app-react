@@ -1,6 +1,7 @@
 import { set } from 'mongoose';
 import MovieGrid from './components/MovieGrid';
 import Pagination from './components/Pagination';
+import { useEffect } from 'react';
 
 export default function FavoritesPage({
   likedMovies,
@@ -15,6 +16,10 @@ export default function FavoritesPage({
   if (!loggedIn) {
     return null;
   }
+
+  useEffect(() => {
+    setLikedPage(1);
+  }, [loggedIn]);
 
   return (
     <>

@@ -50,6 +50,7 @@ export default function App() {
 
     const loadLikedMovies = async() => {
       const { sessionId, accountId } = loadUserData();
+
       if (loggedIn) {
         getLikedMovies({ sessionId, accountId, likedPage })
           .then((r) => {
@@ -100,8 +101,28 @@ export default function App() {
     }, [category, page]);
 
     /* --------------- like / unlike --------------- */
-    const toggleLike = (movie) => {
+    // determine if a movie is liked
+    const isLiked = (movie) => {
+      return userLikedMovies.some((m) => m.id === movie.id);
+    };
+
+    const toggleLike = async (movie) => {
       if (loggedIn) {
+        const { sessionId, accountId } = loadUserData();
+        if (isLiked(movie)) {
+          // unlike the movie
+          // remove from liked movies
+          const newLikedMovies = userLikedMovies.filter((m) => m.id !== movie.id);
+          setUserLikedMovies(newLikedMovies);
+          await unlikeMovie({ movieId: movie.id, sessionId, accountId })
+        }
+        else {
+          // like the movie
+          // add to liked movies
+          const newLikedMovies = [...userLikedMovies, movie];
+          setUserLikedMovies(newLikedMovies);
+          await likeMovie({ movieId: movie.id, sessionId, accountId });
+        }
         
       }
     };

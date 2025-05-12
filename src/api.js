@@ -97,7 +97,7 @@ export const getLikedMovies = async ({ sessionId, accountId, likedPage }) => {
         headers: headers
     };
 
-    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=en-US&page=${likedPage}&session_id=${sessionId}&sort_by=created_at.asc`, options)
+    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=en-US&page=${likedPage}&session_id=${sessionId}&sort_by=created_at.desc`, options)
     const resJSON = await res.json();
     return resJSON;
 };
@@ -108,7 +108,7 @@ export const getRatedMovies = async ({ sessionId, accountId, ratedPage }) => {
         headers: headers
     };
 
-    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/rated/movies?language=en-US&page=${ratedPage}&session_id=${sessionId}&sort_by=created_at.asc`, options)
+    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/rated/movies?language=en-US&page=${ratedPage}&session_id=${sessionId}&sort_by=created_at.desc`, options)
     const resJSON = await res.json();
     return resJSON;
 };
