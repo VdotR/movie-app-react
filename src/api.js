@@ -83,7 +83,7 @@ export const login = async ({ username, password }) => {
             requestToken
         }
 
-        //localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('userData', JSON.stringify(userData));
 
         return userData;
     } catch (e) {
@@ -91,8 +91,15 @@ export const login = async ({ username, password }) => {
     }
 };
 
-export const getLikedMovies = async (sessionId) => {
-    return;
+export const getLikedMovies = async ({sessionId, accountId}) => {
+    const options = {
+        method: 'GET',
+        headers: headers
+    };
+
+    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=2`, options)
+    const resJSON = await res.json();
+    return resJSON;
 };
 
 export const getRatedMovies = async ({sessionId, accountId}) => {
@@ -103,7 +110,7 @@ export const getRatedMovies = async ({sessionId, accountId}) => {
 
     const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/rated/movies?language=en-US&session_id=${sessionId}&sort_by=created_at.asc`, options)
     const resJSON = await res.json();
-    const ratedMovies = resJSON.results;
+    return resJSON;
 };
 
 export const setMovieFavoriteStatus = async ({movieId, sessionId, accountId, favorite}) => {
@@ -137,25 +144,54 @@ export const unlikeMovie = async ({movieId, sessionId, accountId}) => {
     });
 };
 
-export const rateMovie = async ({movieId, sessionId, }) => {
-    return;
+export const rateMovie = async ({movieId, sessionId, value}) => {
+    const options = {
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: `Bearer ${TMDB_API_KEY}`
+        },
+        body: `{"value":${value}}`
+    };
+
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}/rating?session_id=${sessionId}`, options)
+    .then(res => res.json())
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
 };
 
-const userData = await login({
-    username: 'victorren2002_backup',
-    password: 'Vren2002'
-})
+// const userData = await login({
+//     username: 'victorren2002_backup',
+//     password: 'Vren2002'
+// })
 
-console.log(userData);
+// console.log(userData);
 
-await likeMovie({
-    movieId: 974576,
-    sessionId: userData.sessionId,
-    accountId: userData.accountId
-});
+// await likeMovie({
+//     movieId: 974576,
+//     sessionId: userData.sessionId,
+//     accountId: userData.accountId
+// });
 
-await unlikeMovie({
-    movieId: 974576,
-    sessionId: userData.sessionId,
-    accountId: userData.accountId
-});
+// await unlikeMovie({
+//     movieId: 974576,
+//     sessionId: userData.sessionId,
+//     accountId: userData.accountId
+// });
+
+// await getRatedMovies({
+//     sessionId: userData.sessionId,
+//     accountId: userData.accountId
+// });
+
+// await getLikedMovies({
+//     sessionId: userData.sessionId,
+//     accountId: userData.accountId
+// });
+
+// await rateMovie({
+//     movieId: 1144430,
+//     sessionId: userData.sessionId,
+//     value: 5
+// });
