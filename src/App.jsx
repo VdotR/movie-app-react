@@ -24,7 +24,7 @@ export default function App() {
     /* --------------- states --------------- */
     const [movies, setMovies]           = useState([]);
     // const [likedMovies, setLikedMovies] = useState([]);
-    const [category, setCategory]       = useState('popular');
+    const [category, setCategory]       = useState('now_playing');
     const [page, setPage]               = useState(1);
     const [totalPages, setTotalPages]   = useState(0);
     const [userRatedMovies, setUserRatedMovies] = useState([]);
@@ -72,7 +72,12 @@ export default function App() {
       }
     }
 
-
+    const clearUserData = () => {
+      localStorage.removeItem("userData");
+      setLoggedIn(false);
+      setUserRatedMovies([]);
+      setUserLikedMovies([]);
+    }
     /* --------------- fetch w/ cache --------------- */
     useEffect(() => {
 
@@ -121,7 +126,7 @@ export default function App() {
       <div className="title-container"><h1>Movie DB</h1></div>
       <Header 
         loggedIn={loggedIn}
-        setLoggedIn={setLoggedIn}
+        clearUserData={clearUserData}
       />
 
       <Routes>

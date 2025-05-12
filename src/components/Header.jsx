@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import logo from '../assets/project-logo.png';
 
 
-export default function Header({ loggedIn, setLoggedIn }) {
+export default function Header({ loggedIn, clearUserData }) {
 
   const [displayLogout, setDisplayLogout] = useState(false);
 
@@ -13,9 +13,8 @@ export default function Header({ loggedIn, setLoggedIn }) {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("userData");
+    clearUserData();
     setDisplayLogout(false);
-    setLoggedIn(false);
   }
 
   return (
