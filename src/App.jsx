@@ -197,7 +197,10 @@ export default function App() {
             />
           }
         />
-        <Route path="/movies/:id" element={<MovieDetailPage />} />
+        <Route path="/movies/:id" element={<MovieDetailPage 
+                                            loggedIn={loggedIn}
+                                            userRatedMovies={userRatedMovies}
+                                          />} />
 
         <Route path="login" element={<LoginPage 
                                       setLoggedIn={setLoggedIn}

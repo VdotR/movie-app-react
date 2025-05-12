@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { IoIosStar } from 'react-icons/io';
 import { fetchMovieDetails } from './api';
 
-export default function MovieDetailPage() {
+export default function MovieDetailPage( {userRatedMovies, loggedIn} ) {
   const { id } = useParams();               // → “…/movies/123” → id === "123"
   const navigate = useNavigate();
 
