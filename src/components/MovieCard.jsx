@@ -5,7 +5,7 @@ export default function MovieCard({ movie, liked, toggleLike, openDetail }) {
   return (
     <div className="movie-card" id={id}>
       <div className="movie-card-image">
-        <img src={`https://image.tmdb.org/t/p/original/${poster_path}`} alt={title} />
+        <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={title} />
       </div>
       <h4 className="movie-card-title" onClick={() => openDetail(id)}> {title}</h4>
       <div className="movie-card-rating">

@@ -33,7 +33,7 @@ export default function MovieDetailPage() {
       <div className="movie-detail-info">
         <div className="movie-detail-poster">
           <img
-            src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
             alt={movie.title}
           />
         </div>
@@ -90,7 +90,7 @@ export default function MovieDetailPage() {
                 .filter(c => c.logo_path)
                 .map(c => (
                   <li key={c.id} className="production-company">
-                    <img src={`https://image.tmdb.org/t/p/original/${c.logo_path}`} alt={c.name} />
+                    <img src={`https://image.tmdb.org/t/p/w500/${c.logo_path}`} alt={c.name} />
                   </li>
                 ))}
             </ul>

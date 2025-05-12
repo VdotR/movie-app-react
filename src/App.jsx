@@ -1,65 +1,109 @@
 // src/App.jsx
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, use } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Header from './components/Header';
 import MovieDetailPage from './MovieDetailPage';
-import { fetchMovies } from './api';
+import {  fetchMovies, 
+          getLikedMovies, 
+          getRatedMovies, 
+          likeMovie, 
+          unlikeMovie, 
+          rateMovie 
+        } from './api';
 
 import HomePage from './HomePage';
 import FavoritesPage from './FavoritesPage';
 import LoginPage from './LoginPage';
+import RatedPage from './RatedPage';
 
 import './App.css';
 
+
 export default function App() {
-  /* --------------- states --------------- */
-  const [movies, setMovies]           = useState([]);
-  const [likedMovies, setLikedMovies] = useState([]);
-  const [category, setCategory]       = useState('popular');
-  const [page, setPage]               = useState(1);
-  const [totalPages, setTotalPages]   = useState(0);
-  const [userRatedMovies, setUserRatedMovies] = useState([]);
-  const [userLikedMovies, setUserLikedMovies] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
+    /* --------------- states --------------- */
+    const [movies, setMovies]           = useState([]);
+    // const [likedMovies, setLikedMovies] = useState([]);
+    const [category, setCategory]       = useState('popular');
+    const [page, setPage]               = useState(1);
+    const [totalPages, setTotalPages]   = useState(0);
+    const [userRatedMovies, setUserRatedMovies] = useState([]);
+    const [userLikedMovies, setUserLikedMovies] = useState([]);
+    const [loggedIn, setLoggedIn] = useState(false);
 
-  /* -------- router helpers & cache -------- */
-  const navigate   = useNavigate();
-  // a function to jump to any movie detail page by id
-  const openDetail = (id) => navigate(`/movies/${id}`); 
+    /* -------- router helpers & cache -------- */
+    const navigate   = useNavigate();
+    // a function to jump to any movie detail page by id
+    const openDetail = (id) => navigate(`/movies/${id}`); 
 
-  // cache for already-fetched category+page results
-  const cache = useRef({});
+    // cache for already-fetched category+page results
+    const cache = useRef({});
 
-  /* --------------- fetch w/ cache --------------- */
-  useEffect(() => {
-
-    const key = `${category}-${page}`; //unique key for each category+page
-
-    // serve from cache if available
-    if (cache.current[key]) {
-      const { results, total_pages } = cache.current[key];
-      setMovies(results);
-      setTotalPages(total_pages);
-      return;
+    const loadUserData = () => {
+      return JSON.parse(localStorage.getItem("userData") || "{}");
     }
 
-    // otherwise fetch and cache
-    fetchMovies({ category, page }).then((r) => {
-      cache.current[key] = r;
-      setMovies(r.results);
-      setTotalPages(r.total_pages);
-    });
-  }, [category, page]);
 
-  /* --------------- like / unlike --------------- */
-  const toggleLike = (movie) => {
-    setLikedMovies(prev => {
-      const exists = prev.some(m => m.id === movie.id);
-      return exists ? prev.filter(m => m.id !== movie.id)
-                    : [...prev, movie];
-    });
-  };
+    const loadLikedMovies = async() => {
+      const { sessionId, accountId } = loadUserData();
+      if (loggedIn) {
+        getLikedMovies({ sessionId, accountId })
+          .then((r) => {
+            setUserLikedMovies(r.results);
+          })
+          .catch((e) => console.error(e));
+      }
+    }
+
+    const loadRatedMovies = async() => {
+      const { sessionId, accountId } = loadUserData();
+      if (loggedIn) {
+        getRatedMovies({ sessionId, accountId })
+          .then((r) => {
+            setUserRatedMovies(r.results);
+          })
+          .catch((e) => console.error(e));
+      }
+    }
+
+
+    /* --------------- fetch w/ cache --------------- */
+    useEffect(() => {
+
+      const key = `${category}-${page}`; //unique key for each category+page
+
+      // serve from cache if available
+      if (cache.current[key]) {
+        const { results, total_pages } = cache.current[key];
+        setMovies(results);
+        setTotalPages(total_pages);
+        return;
+      }
+
+      // otherwise fetch and cache
+      fetchMovies({ category, page }).then((r) => {
+        cache.current[key] = r;
+        setMovies(r.results);
+        setTotalPages(r.total_pages);
+      });
+    }, [category, page]);
+
+    /* --------------- like / unlike --------------- */
+    const toggleLike = (movie) => {
+      if (loggedIn) {
+        
+      }
+    };
+
+    // Load liked and rated movies when the user logs in
+    useEffect(() => {
+      if (loggedIn) {
+        loadLikedMovies();
+        loadRatedMovies();
+      }
+    }, [loggedIn]);
+
+
 
   /* --------------- render --------------- */
   return (
@@ -76,7 +120,7 @@ export default function App() {
           element={
             <HomePage
               movies={movies}
-              likedMovies={likedMovies}
+              likedMovies={userLikedMovies}
               category={category}
               setCategory={setCategory}
               page={page}
@@ -91,9 +135,23 @@ export default function App() {
           path="/favorites"
           element={
             <FavoritesPage
-              likedMovies={likedMovies}
+              likedMovies={userLikedMovies}
               toggleLike={toggleLike}
               openDetail={openDetail}
+              loggedIn={loggedIn}
+            />
+          }
+        />
+
+        <Route
+          path="/rated"
+          element={
+            <RatedPage
+              RatedMovies={userRatedMovies}
+              likedMovies={userLikedMovies}
+              toggleLike={toggleLike}
+              openDetail={openDetail}
+              loggedIn={loggedIn}
             />
           }
         />

@@ -43,7 +43,12 @@ export default function Header({ loggedIn, setLoggedIn }) {
             </NavLink>
           </li>
           <li>
-            RATED
+            <NavLink
+              to="/rated"
+              className={({ isActive }) => isActive ? 'selected-tab' : ''}
+            >
+              RATED
+            </NavLink>
           </li>
         </ul>
       </div>

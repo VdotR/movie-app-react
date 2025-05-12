@@ -97,7 +97,7 @@ export const getLikedMovies = async ({sessionId, accountId}) => {
         headers: headers
     };
 
-    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=2`, options)
+    const res = await fetch(`https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=en-US&session_id=${sessionId}&sort_by=created_at.asc`, options)
     const resJSON = await res.json();
     return resJSON;
 };
