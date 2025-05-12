@@ -119,7 +119,7 @@ export default function App() {
         else {
           // like the movie
           // add to liked movies
-          const newLikedMovies = [...userLikedMovies, movie];
+          const newLikedMovies = [movie, ...userLikedMovies];
           setUserLikedMovies(newLikedMovies);
           await likeMovie({ movieId: movie.id, sessionId, accountId });
         }
@@ -184,7 +184,7 @@ export default function App() {
             }
           />
           <Route
-            path="/favorites"
+            path="/favorite"
             element={
               <FavoritesPage
                 likedMovies={userLikedMovies}

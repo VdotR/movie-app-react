@@ -35,7 +35,7 @@ export default function Header({ loggedIn, clearUserData }) {
           </li>
           <li>
             <NavLink
-              to="/favorites"
+              to="/favorite"
               className={({ isActive }) => isActive ? 'selected-tab' : ''}
             >
               FAVORITE

@@ -40,26 +40,30 @@ export default function LoginPage({ setLoggedIn }) {
         >
             {({ isSubmitting }) => (
             <Form className="login-form">
-                {isSubmitting && (
+                {isSubmitting ? (
                     <div className="login-form-loading-overlay">
                     <p>Logging In...</p>
                     </div>
+                ) : (
+                    <>
+                        <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <Field type="text" id="username" name="username" />
+                        <ErrorMessage name="username" component="div" className="form-error" />
+                        </div>
+
+                        <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <Field type="password" id="password" name="password" />
+                        <ErrorMessage name="password" component="div" className="form-error" />
+                        </div>
+
+                        <button type="submit" disabled={isSubmitting} className="submit-button">
+                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                        </button>
+                    </>
                 )}
-                <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <Field type="text" id="username" name="username" />
-                <ErrorMessage name="username" component="div" className="form-error" />
-                </div>
-
-                <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <Field type="password" id="password" name="password" />
-                <ErrorMessage name="password" component="div" className="form-error" />
-                </div>
-
-                <button type="submit" disabled={isSubmitting} className="submit-button">
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-                </button>
+                
             </Form>
             )}
         </Formik>
