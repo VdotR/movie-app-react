@@ -2,61 +2,36 @@
 import { use, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { IoIosStar } from 'react-icons/io';
-import { fetchMovieDetails, rateMovie } from './api';
+import { fetchMovieDetails } from './api';
 
 export default function MovieDetailPage( 
-  { userRatedMovies, 
-    loggedIn,
-    rateMovieHandler} ) {
-  const { id } = useParams();               // → “…/movies/123” → id === "123"
-  const navigate = useNavigate();
+    { userRatedMovies, 
+      loggedIn,
+      rateMovieHandler} ) {
+    const { id } = useParams();               // → “…/movies/123” → id === "123"
+    const navigate = useNavigate();
 
-  const [movie, setMovie] = useState(null);
-  const [currentRating, setCurrentRating] = useState(1);
-  const [userRating, setUserRating] = useState(null);
+    const [movie, setMovie] = useState(null);
+    const [currentRating, setCurrentRating] = useState(1);
+    const [userRating, setUserRating] = useState(null);
 
-  const [isRated, setIsRated] = useState(false);
+    const [isRated, setIsRated] = useState(false);
 
-  const RATINGS = [1,2,3,4,5,6,7,8,9,10];
+    const RATINGS = [1,2,3,4,5,6,7,8,9,10];
 
-  const handleRatingChange = (newRating) => {
-    setCurrentRating(newRating);
-    //alert(`You rated this movie ${newRating} out of 10`);
-  };
+    const handleRatingChange = (newRating) => {
+      setCurrentRating(newRating);
+      //alert(`You rated this movie ${newRating} out of 10`);
+    };
 
-  const handleSubmitRating = () => {
-    if (loggedIn){
-      rateMovieHandler(movie, currentRating);
-      setUserRating(currentRating);
-      setIsRated(true);
-      //alert(`You rated this movie ${currentRating} out of 10`);
-    }
-  }
-
-  const fetchUserRating = () => {
-    if (loggedIn && isRated) {
-      const ratedMovie = userRatedMovies.find(m => m.id === Number(id));
-      if (ratedMovie) {
-        setUserRating(ratedMovie.rating);
+    const handleSubmitRating = () => {
+      if (loggedIn){
+        rateMovieHandler(movie, currentRating);
+        setUserRating(currentRating);
+        setIsRated(true);
+        //alert(`You rated this movie ${currentRating} out of 10`);
       }
     }
-  }
-      
-
-  // useEffect(() => {
-  //   fetchMovieDetails(id).then(setMovie);
-  // }, [id]);
-
-  // // Get id of rated movies
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     const ratedIDs = userRatedMovies.map(m => Number(m.id));
-  //     //setRatedMoviesIDs(ratedIDs);
-  //     const isRated = ratedIDs.includes(Number(id));
-  //     setIsRated(isRated);
-  //     fetchUserRating();
-  //   }
-  // }, [userRatedMovies, loggedIn]);
 
     useEffect(() => {
       fetchMovieDetails(id).then(setMovie);
@@ -74,8 +49,6 @@ export default function MovieDetailPage(
         setUserRating(null);                    
       }
     }, [userRatedMovies, loggedIn, id]);
-
-
 
   if (!movie) return <p className="loading">Loading…</p>;
 
@@ -162,7 +135,6 @@ export default function MovieDetailPage(
             </ul>
           </div>
 
-          {/* ——— go‑home button ——— */}
           <button className="go-home-btn" onClick={() => navigate('/') }>
             ⬅ Go Home
           </button>
