@@ -1,5 +1,4 @@
 // src/FavoritesPage.jsx
-import React from 'react';
 import MovieGrid from './components/MovieGrid';
 
 export default function FavoritesPage({

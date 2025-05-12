@@ -39,7 +39,7 @@ export default function Header({ loggedIn, setLoggedIn }) {
               to="/favorites"
               className={({ isActive }) => isActive ? 'selected-tab' : ''}
             >
-              LIKED
+              FAVORITE
             </NavLink>
           </li>
           <li>
