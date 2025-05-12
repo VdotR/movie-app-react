@@ -30,6 +30,10 @@ export default function App() {
     const [userRatedMovies, setUserRatedMovies] = useState([]);
     const [userLikedMovies, setUserLikedMovies] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [likedPage, setLikedPage] = useState(1);
+    const [likedTotalPages, setLikedTotalPages] = useState(0);
+    const [ratedPage, setRatedPage] = useState(1);
+    const [ratedTotalPages, setRatedTotalPages] = useState(0);
 
     /* -------- router helpers & cache -------- */
     const navigate   = useNavigate();
@@ -47,9 +51,10 @@ export default function App() {
     const loadLikedMovies = async() => {
       const { sessionId, accountId } = loadUserData();
       if (loggedIn) {
-        getLikedMovies({ sessionId, accountId })
+        getLikedMovies({ sessionId, accountId, likedPage })
           .then((r) => {
             setUserLikedMovies(r.results);
+            setLikedTotalPages(r.total_pages);
           })
           .catch((e) => console.error(e));
       }
@@ -58,9 +63,10 @@ export default function App() {
     const loadRatedMovies = async() => {
       const { sessionId, accountId } = loadUserData();
       if (loggedIn) {
-        getRatedMovies({ sessionId, accountId })
+        getRatedMovies({ sessionId, accountId, ratedPage })
           .then((r) => {
             setUserRatedMovies(r.results);
+            setRatedTotalPages(r.total_pages);
           })
           .catch((e) => console.error(e));
       }
@@ -96,14 +102,18 @@ export default function App() {
     };
 
     // Load liked and rated movies when the user logs in
+    // need pagination for both as api now requires page number
+    useEffect(() => {
+      if (loggedIn) {
+        loadRatedMovies();
+      }
+    }, [ratedPage, loggedIn]);
+
     useEffect(() => {
       if (loggedIn) {
         loadLikedMovies();
-        loadRatedMovies();
       }
-    }, [loggedIn]);
-
-
+    }, [likedPage, loggedIn]);
 
   /* --------------- render --------------- */
   return (
@@ -139,6 +149,9 @@ export default function App() {
               toggleLike={toggleLike}
               openDetail={openDetail}
               loggedIn={loggedIn}
+              likedPage={likedPage}
+              likedTotalPages={likedTotalPages}
+              setLikedPage={setLikedPage}
             />
           }
         />
@@ -152,6 +165,9 @@ export default function App() {
               toggleLike={toggleLike}
               openDetail={openDetail}
               loggedIn={loggedIn}
+              ratedPage={ratedPage}
+              ratedTotalPages={ratedTotalPages}
+              setRatedPage={setRatedPage}
             />
           }
         />

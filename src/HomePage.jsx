@@ -1,5 +1,4 @@
 // src/HomePage.jsx
-import React from 'react';
 import FilterSelect from './components/FilterSelect';
 import Pagination   from './components/Pagination';
 import MovieGrid    from './components/MovieGrid';
