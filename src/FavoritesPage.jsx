@@ -1,4 +1,3 @@
-import { set } from 'mongoose';
 import MovieGrid from './components/MovieGrid';
 import Pagination from './components/Pagination';
 import { useEffect } from 'react';
