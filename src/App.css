@@ -13,6 +13,20 @@ header{
     align-items: center;
 }
 
+.header-logout-button {
+    background-color: #0a5ce9; /* same as pagination color to be consistent */
+    color: white;
+    padding: 0.5rem 1rem; 
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.header-logout-button:hover {
+    background-color: #0847b3;
+}
+
 .header-tab {
     display: flex;
     list-style: none;
@@ -65,6 +79,10 @@ header{
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
+}
+
+#pagination button:hover {
+    background-color: #0847b3;
 }
 
 #movies-container {
