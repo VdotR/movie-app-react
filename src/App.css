@@ -45,12 +45,24 @@ header{
     width: 4rem;
 }
 
-.header-tab li.selected-tab {
+.header-tab li a {
+  color: #4b5563;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 0.5rem 0;
+}
+
+.header-tab li a:hover {
+  color: #0847b3;
+}
+
+/* .header-tab li.selected-tab {
     text-decoration: underline;
     text-decoration-color: #0a5ce9;
     text-decoration-thickness: 5px;
     border-radius: 5px;
-}
+} */
 
 .header .header-login-container{
     float: right;
