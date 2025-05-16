@@ -62,7 +62,7 @@ export default function Header({ loggedIn, clearUserData }) {
         {loggedIn ? (
           <span onClick={handleClickUsername}> {JSON.parse(localStorage.getItem("userData") || "{}").username} </span>
         ) : (
-          <NavLink to="/login">
+          <NavLink className="login-link" to="/login">
             Log In
           </NavLink>
         )}
