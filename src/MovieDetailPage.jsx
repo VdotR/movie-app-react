@@ -97,7 +97,7 @@ export default function MovieDetailPage(
                 <span> You have not rated this movie yet </span>
               )
             }
-            <div>
+            <div className='user-rating-select-container'>
                 <select
                     className="user-rating-select"
                     onChange={e => handleRatingChange(e.target.value)}
