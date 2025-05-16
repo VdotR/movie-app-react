@@ -113,7 +113,7 @@ export default function MovieDetailPage(
                     className="submit-rating-btn"
                     onClick={() => handleSubmitRating()}
                 >
-                    Submit
+                    Submit Rating
                 </button>
             </div>
           </div>

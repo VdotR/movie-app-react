@@ -276,3 +276,45 @@ footer {
     align-items: center;
     height: 5rem;
 }
+
+.user-rating-select {
+  appearance: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  font-size: 16px;
+  padding: 8px 25px 8px 10px;
+  width: 60px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.user-rating-select:hover {
+  border-color: #999;
+}
+
+.user-rating-select:focus {
+  border-color: #0a5ce9;
+  box-shadow: 0 0 0 2px rgba(10, 92, 233, 0.25);
+  outline: none;
+}
+
+.movie-detail-page button {
+  background-color: #0a5ce9;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.movie-detail-page button:hover {
+  background-color: #0847b3;
+}
+
+.movie-detail-page .go-home-btn {
+  margin-top: 1rem;
+}
