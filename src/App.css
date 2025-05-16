@@ -76,6 +76,27 @@ header{
     margin: 2rem 0;
 }
 
+#filter select {
+    appearance: none;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    font-size: 16px;
+    padding: 10px 12px;
+    width: 8rem;
+    cursor: pointer;
+}
+
+#filter select:hover {
+    border-color: #999;
+}
+
+#filter select:focus {
+    border-color: #0a5ce9;
+    outline: none;
+}
+
 #pagination {
     display: flex;
     justify-content: center;
